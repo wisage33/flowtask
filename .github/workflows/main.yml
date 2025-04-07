@@ -25,13 +25,13 @@ jobs:
         run: npm run build
 
       - name: deploy via SSH
-        uses: appleboy/ssh-action@v1
-          with:
-            host: ${{ actions.SSH_HOST }}
-            username: ${{ actions.SSH_USER }}
-            password: ${{ actions.SSH_PASSWORD }}
-            script: |
-              cd /var/www/flowtask-tg.ru
-              git pull origin main
-              npm install --production
-              pm2 restart all
+        uses: appleboy/ssh-action@v
+        with:
+          host: ${{ actions.SSH_HOST }}
+          username: ${{ actions.SSH_USER }}
+          password: ${{ actions.SSH_PASSWORD }}
+          script: |
+            cd /var/www/flowtask-tg.ru
+            git pull origin main
+            npm install --production
+            pm2 restart all
