@@ -27,9 +27,9 @@ jobs:
       - name: deploy via SSH
         uses: appleboy/ssh-action@v
         with:
-          host: ${{ actions.SSH_HOST }}
-          username: ${{ actions.SSH_USER }}
-          password: ${{ actions.SSH_PASSWORD }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /var/www/flowtask-tg.ru
             git pull origin main
