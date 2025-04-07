@@ -19,7 +19,9 @@ jobs:
           node-version: 20
 
       - name: install depencies
-        run: npm install
+        run: |
+          npm install
+          npm install pm2
 
       - name: deploy via SSH
         uses: appleboy/ssh-action@v1
