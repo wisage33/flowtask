@@ -21,9 +21,6 @@ jobs:
       - name: install depencies
         run: npm install
 
-      - name: build project
-        run: npm run build
-
       - name: deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
