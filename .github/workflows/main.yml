@@ -25,7 +25,7 @@ jobs:
         run: npm run build
 
       - name: deploy via SSH
-        uses: appleboy/ssh-action@v
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
