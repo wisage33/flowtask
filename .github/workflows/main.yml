@@ -28,7 +28,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # 1. Остановить PM2 и удалить старую установку
-            npx pm2 kill || true
+            npx pm2 stop index.js || true
 
             # 4. Обновить код и зависимости
             cd /var/www/flowtask-tg.ru || exit
@@ -36,4 +36,4 @@ jobs:
             npm ci --omit=dev
 
             # 5. Запустить приложение
-            npx pm2 start index.js --no-daemon
+            npx pm2 start index.js
