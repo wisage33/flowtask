@@ -7,32 +7,42 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: install depencies
-        run: npm ci #надежнее аналог нпм
-          
+      - name: Install dependencies
+        run: npm ci
 
-      - name: deploy via SSH
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }} #вместо твоего ссшпасворд
-          
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            pm2 kill
-            npm install -g pm2
-            cd /var/www/flowtask-tg.ru || exit #проверит директории 
+            # 1. Остановить PM2 и удалить старую установку
+            pm2 kill || true
+            sudo rm -rf /usr/local/lib/node_modules/pm2
+            sudo rm -rf /usr/local/bin/pm2
+
+            # 2. Очистить кэш и установить PM2
+            npm cache clean --force
+            sudo npm install -g pm2 --unsafe-perm --force
+
+            # 3. Проверить версию PM2
+            pm2 -v
+
+            # 4. Обновить код и зависимости
+            cd /var/www/flowtask-tg.ru || exit
             git pull origin main
-            npm ci --omit=dev 
-            pm2 start index.js
+            npm ci --omit=dev
+
+            # 5. Запустить приложение
+            pm2 start index.js --no-daemon
