@@ -29,6 +29,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            Loveri_0404
             cd /var/www/flowtask-tg.ru
             git pull origin main
             npm install --omit=dev
