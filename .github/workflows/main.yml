@@ -6,8 +6,8 @@ on:
 
 jobs:
   deploy:
-    runs-on:
-      ubuntu-latest
+    runs-on: ubuntu-latest
+    
 
     steps:
       - name: Checkout code
@@ -19,18 +19,19 @@ jobs:
           node-version: 20
 
       - name: install depencies
-        run: |
-          npm install
+        run: npm ci #надежнее аналог нпм
+          
 
       - name: deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }} #вместо твоего ссшпасворд
+          
           script: |
             npm install -g pm2
-            cd /var/www/flowtask-tg.ru
+            cd /var/www/flowtask-tg.ru || exit #проверит директории 
             git pull origin main
-            npm install --omit=dev
+            npm ci --omit=dev 
             pm2 restart all
