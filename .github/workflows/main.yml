@@ -28,6 +28,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            systemctl status pm2-root
+            systemctl start pm2-root || true
             cd /var/www/flowtask-tg.ru
             git pull origin main
             npm install pm2 || true
