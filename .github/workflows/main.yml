@@ -30,8 +30,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} #вместо твоего ссшпасворд
           
           script: |
+            pm2 kill
             npm install -g pm2
             cd /var/www/flowtask-tg.ru || exit #проверит директории 
             git pull origin main
             npm ci --omit=dev 
-            pm2 restart all
+            pm2 start index.js
