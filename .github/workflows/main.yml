@@ -28,16 +28,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # 1. Остановить PM2 и удалить старую установку
-            pm2 kill || true
+            npx pm2 kill || true
             sudo rm -rf /usr/local/lib/node_modules/pm2
             sudo rm -rf /usr/local/bin/pm2
-
-            # 2. Очистить кэш и установить PM2
-            npm cache clean --force
-            sudo npm install -g pm2 --unsafe-perm --force
-
-            # 3. Проверить версию PM2
-            pm2 -v
 
             # 4. Обновить код и зависимости
             cd /var/www/flowtask-tg.ru || exit
@@ -45,4 +38,4 @@ jobs:
             npm ci --omit=dev
 
             # 5. Запустить приложение
-            pm2 start index.js --no-daemon
+            npx pm2 start index.js --no-daemon
