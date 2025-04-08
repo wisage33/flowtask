@@ -29,8 +29,6 @@ jobs:
           script: |
             # 1. Остановить PM2 и удалить старую установку
             npx pm2 kill || true
-            sudo rm -rf /usr/local/lib/node_modules/pm2
-            sudo rm -rf /usr/local/bin/pm2
 
             # 4. Обновить код и зависимости
             cd /var/www/flowtask-tg.ru || exit
