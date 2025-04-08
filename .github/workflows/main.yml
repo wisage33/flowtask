@@ -18,7 +18,9 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          cd /var/www/flowtask-tg.ru
+          npm ci
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -27,12 +29,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # 1. Остановить PM2 и удалить старую установку
-            npx pm2 kill || true
-            # 4. Обновить код и зависимости
-            cd /var/www/flowtask-tg.ru || exit
             git pull origin main
-            npm ci --omit=dev
-
-            # 5. Запустить приложение
-            npx pm2 restart all
+            npm install pm2 || true
+            pm2 restart index.js || pm2 start index.js
