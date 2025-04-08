@@ -19,6 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          echo "Текущая директория: $(pwd)"
           cd /var/www/flowtask-tg.ru
           npm ci
 
