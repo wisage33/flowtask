@@ -31,4 +31,5 @@ jobs:
             systemctl status pm2-root
             cd /var/www/flowtask-tg.ru
             git pull origin main
-            systemctl start pm2-root
+            systemctl restart pm2-root
+            pm2 status || systemctl status pm2-root
