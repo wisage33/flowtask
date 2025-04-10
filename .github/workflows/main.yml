@@ -22,7 +22,7 @@ jobs:
           npm ci
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v2
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
