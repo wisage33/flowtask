@@ -31,4 +31,5 @@ jobs:
             systemctl status pm2-root
             cd /var/www/flowtask-tg.ru
             git pull origin main
-            /root/.nvm/versions/node/v22.14.0/bin/pm2 startOrRestart all
+            /root/.nvm/versions/node/v22.14.0/bin/pm2 startOrRestart index.js
+
