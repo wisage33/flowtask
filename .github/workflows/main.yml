@@ -15,7 +15,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.14.0
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
@@ -31,5 +32,4 @@ jobs:
             systemctl status pm2-root
             cd /var/www/flowtask-tg.ru
             git pull origin main
-            /root/.nvm/versions/node/v22.14.0/bin/pm2 startOrRestart index.js
-
+            /root/.nvm/versions/node/v22.14.0/bin/pm2 restart ecosystem.config.js
