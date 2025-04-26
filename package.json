@@ -1,14 +1,16 @@
 {
+  "type": "module",
   "name": "flowtask",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "serve": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "pm2": "^6.0.5"
   },
@@ -20,5 +22,8 @@
     "url": "https://github.com/wisage33/flowtask/issues"
   },
   "homepage": "https://github.com/wisage33/flowtask#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
