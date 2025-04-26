@@ -19,8 +19,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -29,7 +28,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            systemctl status pm2-root
             cd /var/www/flowtask-tg.ru
             git pull origin main
-            /root/.nvm/versions/node/v22.14.0/bin/pm2 restart ecosystem.config.js
+            npm init -y
+            npm run start

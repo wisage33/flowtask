@@ -8,15 +8,21 @@
     <div class="container">
         <h1>Облачные сервера</h1>
         <div id="app">
-            <div class="spinner-border" role="status" v-if="servers.length === 0">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <ul class="list-group" v-else>
-                <li class="list-group-item" v-for="server in servers">
-                    {{ server.name }}
-                    <strong>{{ server.status }}</strong>
-                </li>
-            </ul>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col" v-for="server in servers">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ server.name }}</h5>
+                      <span class="badge" :class="{
+                        'bg-success': server.status === 'Working',
+                        'bg-warning': server.status === 'Pending'
+                      }">
+                        {{ server.status }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
 
