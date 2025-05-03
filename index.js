@@ -9,8 +9,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 5000;
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true}))
 app.use(express.static(path.resolve(__dirname, 'public')))
-
 app.set('view engine', 'ejs')
 
 app.use(serverRouter)
@@ -24,7 +25,7 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/tasks', (req, res) => {
-    res.render('tasks', { title: 'Tasks', active: 'tasks'})
+    res.render('tasks', { title: 'Tasks', active: 'tasks', })
 })
 
 app.listen(port, () => {
