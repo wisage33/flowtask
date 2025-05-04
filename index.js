@@ -2,6 +2,9 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import serverRouter from './routes/server.js'
+import connectDB from "./config/db.js";
+import User from "./models/User.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +31,17 @@ app.get('/tasks', (req, res) => {
     res.render('tasks', { title: 'Tasks', active: 'tasks', })
 })
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+app.get('/users', async (req, res) => {
+    try {
+        res.render('users', {title: 'Users', active: 'users'})
+    } catch (err) {
+        console.error("Error when get users from mongo: ", err)
+        res.status(500).json({ error: 'Server error'})
+    }
+})
+
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log(`Server running on http://localhost:${port}`);
+    });
+})
