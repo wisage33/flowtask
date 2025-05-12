@@ -30,5 +30,4 @@ jobs:
           script: |
             cd /var/www/flowtask-tg.ru
             git pull origin main
-            npm init -y
             /root/.nvm/versions/node/v22.14.0/bin/pm2 restart all

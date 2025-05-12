@@ -3,7 +3,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import serverRouter from './routes/server.js'
 import connectDB from "./config/db.js";
-import User from "./models/User.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,6 +37,10 @@ app.get('/users', async (req, res) => {
         console.error("Error when get users from mongo: ", err)
         res.status(500).json({ error: 'Server error'})
     }
+})
+
+app.get('/register', (req, res) => {
+    res.render('register', {title: 'Registration'})
 })
 
 connectDB().then(() => {

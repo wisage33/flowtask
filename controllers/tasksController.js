@@ -1,34 +1,46 @@
-import { json } from "express";
+import Task from "../models/Task.js";
 
-let servers = [
-    {id: 1, name: 'Buy', status: 'Pending'}
-];
+const taskController = {
+    getAll: async (req, res) => {
+        try {
+            const tasks = await Task.find().sort({ createdAt: -1});
+            res.json(tasks);
+        } catch (err) {
+            handleError(res, err);
+        }
+    },
+    
+    create: async (req, res) => {
+        try {
+            const task = await Task.create({
+                title: req.body.title,
+                description: req.body.description
+            });
+            res.status(201).json(task);
+        } catch (err) {
+            handleError(res, err);
+        }
+    },
 
-export const createTask = (req, res) => {
-    // Проверка наличия обязательных полей
-    if (!req.body.title || !req.body.description) {
-        return res.status(400).json({ error: 'Title and description are required' });
+    delete: async(req, res) => {
+        try {
+            console.log(req.params)
+            const deletetask = await Task.findByIdAndDelete(req.params.id) 
+            if(!deletetask) {
+                return res.status(404).json({"error": "task not found"})
+            }
+            res.json({"message": "Task delete"})
+        } catch (err) {
+            handleError(res, err)
+        }
     }
-
-    // Создание нового объекта задачи
-    const newTask = {
-        id: servers.length + 1,
-        name: req.body.title,
-        description: req.body.description,
-        status: 'Pending', // Добавляем статус по умолчанию
-        createdAt: new Date().toISOString() // Добавляем дату создания
-    };
-
-    // Добавление в массив
-    servers.push(newTask);
-    console.log(newTask + '\n')
-    console.log(servers)
-    // Перенаправление на страницу задач
-    res.redirect('/tasks');
 };
 
-export const getTasks = (req, res) => {
-    res.status(200).json(servers);
-};
+function handleError(res, err) {
+    console.error(err);
+    res.status(500).json({ 
+        error: err.message || 'Server error' 
+    });
+}
 
-export const getServersArray = () => servers
+export default taskController;
