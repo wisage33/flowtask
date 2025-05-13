@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import serverRouter from './routes/server.js'
 import connectDB from "./config/db.js";
-
+import "dotenv/config"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +13,7 @@ const port = 5000;
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
-app.use(express.static(path.resolve(__dirname, 'public')))
+app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
 app.use(serverRouter)
@@ -34,7 +34,7 @@ app.get('/users', async (req, res) => {
     try {
         res.render('users', {title: 'Users', active: 'users'})
     } catch (err) {
-        console.error("Error when get users from mongo: ", err)
+        console.error("Error when fetch users from mongo: ", err)
         res.status(500).json({ error: 'Server error'})
     }
 })

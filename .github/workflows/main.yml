@@ -30,4 +30,5 @@ jobs:
           script: |
             cd /var/www/flowtask-tg.ru
             git pull origin main
-            /root/.nvm/versions/node/v22.14.0/bin/pm2 restart all
+            /root/.nvm/versions/node/v22.14.0/bin/pm2 restart flowtask
+            systemctl restart nginx

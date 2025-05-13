@@ -6,7 +6,9 @@ const App = {
             formData: {
                 title: '',
                 description: ''
-            }
+            },
+            telegram: null,
+            user: null
         }
     },
     methods: {
@@ -53,6 +55,10 @@ const App = {
     },
     async mounted() {
         try {
+            this.telegram = window.Telegram.WebApp
+            this.telegram.ready()
+            this.user = this.telegram.initDataUnsafe?.user || null
+
             const res = await fetch('/api/tasks');
             if (!res.ok) throw new Error('Network response was not ok');
             this.tasks = await res.json();
