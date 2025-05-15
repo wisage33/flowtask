@@ -7,9 +7,7 @@
     <%- include('./partials/navbar'); %>
     <div class="container py-4">
         <div id="app">
-            <div v-for="data in user">
-                <p>{{ data }}</p>
-            </div>
+            {{ user }}
             <!-- <div v-if="user">
                 <p><strong>Telegram ID:</strong> {{ user.id }}</p>
                 <p><strong>Имя:</strong> {{ user.first_name }} {{ user.last_name }}</p>
