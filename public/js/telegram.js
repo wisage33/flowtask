@@ -9,6 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `<pre>${JSON.stringify(initData, null, 2)}</pre>`
             : "Not have telegram access"
 
-        document.querySelector('#auth').innerHTML(initData)
-    } else document.querySelector('#auth').innerHTML('Not have Telegram initData')
+        document.querySelector('#auth').innerHTML = initData
+    } else document.querySelector('#auth').innerHTML = 'Not have Telegram initData'
 })
