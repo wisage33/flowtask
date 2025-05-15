@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const initData = webApp.initDataUnsafe
 
+
+
         const output = initData
             ? `<pre>${JSON.stringify(initData, null, 2)}</pre>`
             : "Not have telegram access"
 
-        document.querySelector('#auth').innerHTML = initData
+        document.querySelector('#auth').innerHTML = output
     } else document.querySelector('#auth').innerHTML = 'Not have Telegram initData'
 })
