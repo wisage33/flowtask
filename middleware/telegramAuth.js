@@ -3,9 +3,10 @@ import crypto from 'crypto'
 
 export const TelegramAuth = async (req, res, next) => {
     const initData = req.body?.initData || req.query?.initData
+    console.log(initData)
+    
     const {hash, ...data} = initData
 
-    console.log(initData)
 
     const checkString = Object.keys(data)
         .map(k => `${k}=${data[k]}`)
