@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import serverRouter from './routes/server.js'
 import connectDB from "./config/db.js";
 import "dotenv/config"
+import { TelegramAuth } from "./middleware/telegramAuth.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
+app.use(TelegramAuth)
 
 app.use(serverRouter)
 
