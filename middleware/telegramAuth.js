@@ -1,4 +1,4 @@
-import User from 'models/User.js'
+import User from '../models/User.js'
 import crypto from 'crypto'
 
 export const TelegramAuth = async (req, res, next) => {
