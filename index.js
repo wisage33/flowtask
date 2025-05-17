@@ -1,13 +1,10 @@
 import express from "express";
-import path from "path";
 import { fileURLToPath } from "url";
 import serverRouter from './routes/server.js'
 import connectDB from "./config/db.js";
 import "dotenv/config"
-import { TelegramAuth } from "./middleware/telegramAuth.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
 
 const app = express();
 const port = 5000;
@@ -16,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
-// app.use(TelegramAuth) 
+app.use(express.urlencoded({ extended: true}))
 
 app.use(serverRouter)
 
@@ -30,15 +27,6 @@ app.get('/about', (req, res) => {
 
 app.get('/tasks', (req, res) => {
     res.render('tasks', { title: 'Tasks', active: 'tasks', })
-})
-
-app.get('/users', async (req, res) => {
-    try {
-        res.render('users', {title: 'Users', active: 'users'})
-    } catch (err) {
-        console.error("Error when fetch users from mongo: ", err)
-        res.status(500).json({ error: 'Server error'})
-    }
 })
 
 app.get('/register', (req, res) => {

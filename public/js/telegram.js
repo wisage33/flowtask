@@ -1,16 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.Telegram && window.Telegram.WebApp) {
-        const webApp = window.Telegram.WebApp
-        webApp.ready()
+if (!window.telegramAuthDone) {
+    const telegramData = window.Telegram.WebApp;
+    // telegramData.ready();
+    const url = window.location.pathname
 
-        const initData = webApp.initDataUnsafe
+    fetch(`/api/${url}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: telegramData.initDataUnsafe
+    });
 
-
-
-        const output = initData
-            ? `<pre>${JSON.stringify(initData, null, 2)}</pre>`
-            : "Not have telegram access"
-
-        document.querySelector('#auth').innerHTML = output
-    } else document.querySelector('#auth').innerHTML = 'Not have Telegram initData'
-})
+    window.telegramAuthDone = true;
+}

@@ -7,8 +7,7 @@ const App = {
                 title: '',
                 description: ''
             },
-            telegram: null,
-            user: null
+            telegramData: null
         }
     },
     methods: {
@@ -55,11 +54,16 @@ const App = {
     },
     async mounted() {
         try {
-            this.telegram = window.Telegram.WebApp
+            this.telegramData = window.Telegram.WebApp.initDataUnsafe
             this.telegram.ready()
-            this.user = this.telegram.initDataUnsafe?.user || null
-
-            const res = await fetch('/api/tasks');
+            
+            const res = await fetch('/api/tasks', {
+                method: "GET",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "X-Init-Data": JSON.stringify(this.telegramData)
+                }
+            });
             if (!res.ok) throw new Error('Network response was not ok');
             this.tasks = await res.json();
         } catch (error) {

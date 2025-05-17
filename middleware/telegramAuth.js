@@ -2,9 +2,11 @@ import User from '../models/User.js'
 import crypto from 'crypto'
 
 export const TelegramAuth = async (req, res, next) => {
-    const initData = req.body?.initData || req.query?.initData
+    console.log(req.body)
+    const initData = req.headers['X-Init-Data'] || req.query?.initData || req.body?.initData
+
     console.log(initData)
-    
+
     const {hash, ...data} = initData
 
 
@@ -25,6 +27,9 @@ export const TelegramAuth = async (req, res, next) => {
         res.status(400).json({ error: 'Invalid hash'})
     }
 
+    console.log(hmac)
+    console.log(hash)
+
     const user = data.user
 
     const dbUser = await User.findOne({ telegramId: user.id})
@@ -37,6 +42,11 @@ export const TelegramAuth = async (req, res, next) => {
             username: user.username,
             photoUrl: user.photo_url
         })
+        console.log("User added: ", dbUser)
+    }
+
+    if(dbUser) {
+        console.log("User is already")
     }
 
     req.user = dbUser

@@ -5,18 +5,8 @@
 </head>
 <body>
     <%- include('./partials/navbar'); %>
-    <%- include('./partials/authSection')  %>
     <div class="container py-4">
-        <div id="app">
-            {{ user }}
-            <!-- <div v-if="user">
-                <p><strong>Telegram ID:</strong> {{ user.id }}</p>
-                <p><strong>Имя:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                <p><strong>Username:</strong> @{{ user.username }}</p>
-            </div>
-            <div v-else>
-                <p>Вы не авторизованы через Telegram.</p>
-            </div> -->
+        <div id="app" v-clock>
             <div class="header-container d-flex align-items-center mb-4 position-relative">
                 <h1 class="text-center w-100 m-0"><%= title%></h1>
                 <div class="position-absolute end-0">
