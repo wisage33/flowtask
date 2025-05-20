@@ -29,8 +29,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/flowtask-tg.ru
+            docker start mongo
             git stash
             git pull origin main
             npm ci
-            npm run dev
+            pm2 start flowtask
             # /root/.nvm/versions/node/v22.14.0/bin/pm2 restart flowtask
