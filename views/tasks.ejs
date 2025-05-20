@@ -7,6 +7,7 @@
     <%- include('./partials/navbar'); %>
     <div class="container py-4">
         <div id="app" v-clock>
+            <p>{{ user }}</p>
             <div class="header-container d-flex align-items-center mb-4 position-relative">
                 <h1 class="text-center w-100 m-0"><%= title%></h1>
                 <div class="position-absolute end-0">
@@ -32,7 +33,7 @@
                             <h3 class="mb-2">{{ task.title }}</h3>
                             <p class="m-0">{{ task.description }}</p>
                         </div>
-                        <button type="submit" class="btn btn-outline-danger m-4" @click="deleteTask(task._id)">Delete task</button>
+                        <button v-if="user.role === 'admin'" type="submit" class="btn btn-outline-danger m-4" @click="deleteTask(task._id)">Delete task</button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 const App = {
     data() {
         return {
+            user: null,
             tasks: [],
             showForm: false,
             formData: {
@@ -20,7 +21,7 @@ const App = {
                 const res = await fetch('/api/tasks', {
                     method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                         },
                     body: JSON.stringify(this.formData)
                     }
@@ -54,18 +55,14 @@ const App = {
     },
     async mounted() {
         try {
-            this.telegramData = window.Telegram.WebApp.initDataUnsafe
-            this.telegram.ready()
-            
-            const res = await fetch('/api/tasks', {
-                method: "GET",
-                headers: { 
-                    "Content-Type": "application/json",
-                    "X-Init-Data": JSON.stringify(this.telegramData)
-                }
-            });
-            if (!res.ok) throw new Error('Network response was not ok');
+            const tasksRes = await fetch('/api/tasks');
+            if (!tasksRes.ok) throw new Error('Network response was not ok');
             this.tasks = await res.json();
+            const userRes = await fetch('/api/auth/telegram')
+            if (!userRes.ok) throw new Error("Newtowrk response was not ok")
+            this.user = await res.json()
+            alert(this.user)
+            alert(userRes)
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }

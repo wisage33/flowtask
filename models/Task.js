@@ -3,6 +3,11 @@ import mongoose, { mongo, Schema } from "mongoose";
 const taskSchema = new mongoose.Schema({
     title: String,
     description: String,
+    status: {
+        type: String,
+        enum: ['new', 'inWork', 'completed'],
+        default: 'new'
+    },
     createdAt: {type: Date, default: Date.now}
 })
 

@@ -1,12 +1,18 @@
 if (!window.telegramAuthDone) {
     const telegramData = window.Telegram.WebApp;
-    // telegramData.ready();
-    const url = window.location.pathname
+    telegramData.ready();
 
-    fetch(`/api/${url}`, {
+    
+
+    
+    fetch(`/auth/telegram`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: telegramData.initDataUnsafe
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            initData: telegramData.initData
+        })
     });
 
     window.telegramAuthDone = true;
