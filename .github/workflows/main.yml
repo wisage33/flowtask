@@ -33,5 +33,4 @@ jobs:
             git stash
             git pull origin main
             npm ci
-            pm2 start flowtask
-            # /root/.nvm/versions/node/v22.14.0/bin/pm2 restart flowtask
+            /root/.nvm/versions/node/v22.14.0/bin/pm2 restart flowtask
