@@ -7,7 +7,11 @@
     <%- include('./partials/navbar'); %>
     <div class="container py-4">
         <div id="app" v-clock>
-            <p>{{ user }}</p>
+            <div class="userInfo" v-if="user">
+                <div v-for="data in user">
+                    {{data}}
+                </div>
+            </div>
             <div class="header-container d-flex align-items-center mb-4 position-relative">
                 <h1 class="text-center w-100 m-0"><%= title%></h1>
                 <div class="position-absolute end-0">

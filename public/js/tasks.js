@@ -57,12 +57,17 @@ const App = {
         try {
             const tasksRes = await fetch('/api/tasks');
             if (!tasksRes.ok) throw new Error('Network response was not ok');
-            this.tasks = await res.json();
-            const userRes = await fetch('/api/auth/telegram')
-            if (!userRes.ok) throw new Error("Newtowrk response was not ok")
-            this.user = await res.json()
-            alert(this.user)
-            alert(userRes)
+            this.tasks = await tasksRes.json()
+            const checkAuth = () => {
+                if (window.telegramUser) {
+                    this.user = window.telegramUser;
+                } else {
+                    setTimeout(checkAuth, 100); // ждём каждые 100мс
+                }
+            };
+        
+            checkAuth(); // запускаем проверку
+            console.log(this.user)
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
