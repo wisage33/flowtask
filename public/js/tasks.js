@@ -12,8 +12,42 @@ const App = {
         }
     },
     methods: {
+        waitForTelegramUser() {
+            return new Promise((resolve) => {
+                const checkAuth = () => {
+                    if (window.telegramUser) {
+                        this.user = window.telegramUser;
+                        resolve();
+                    } else {
+                        setTimeout(checkAuth, 100);
+                    }
+                };
+                checkAuth();
+            });
+        },
+
         toggleForm() {
             this.showForm = !this.showForm
+        },
+
+        async fetchTasks() {
+            try {
+                const tasksRes = await fetch('/api/tasks')
+                if (!tasksRes.ok) throw new Error('Network response was not ok')
+                this.tasks = await tasksRes.json()
+                const checkAuth = () => {
+                    if (window.telegramUser) {
+                        this.user = window.telegramUser
+                    } else {
+                        setTimeout(checkAuth, 100)
+                    }
+                };
+            
+                checkAuth()
+                console.log(this.user)
+            } catch (error) {
+                console.error('Error fetching tasks:', error)
+            }
         },
 
         async createTask() {
@@ -54,23 +88,9 @@ const App = {
         }
     },
     async mounted() {
-        try {
-            const tasksRes = await fetch('/api/tasks');
-            if (!tasksRes.ok) throw new Error('Network response was not ok');
-            this.tasks = await tasksRes.json()
-            const checkAuth = () => {
-                if (window.telegramUser) {
-                    this.user = window.telegramUser;
-                } else {
-                    setTimeout(checkAuth, 100); // ждём каждые 100мс
-                }
-            };
-        
-            checkAuth(); // запускаем проверку
-            console.log(this.user)
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-        }
+        this.waitForTelegramUser().then(() => {
+            this.fetchTasks()
+        })
     }
 }
 

@@ -7,37 +7,34 @@
     <%- include('./partials/navbar'); %>
     <div class="container py-4">
         <div id="app" v-clock>
-            <div class="userInfo" v-if="user">
-                <div v-for="data in user">
-                    {{data}}
+            <div v-if="user">
+                <div class="header-container d-flex align-items-center mb-4 position-relative">
+                    <h1 class="text-center w-100 m-0"><%= title%></h1>
+                    <div class="position-absolute end-0">
+                        <button type="button" class="btn btn-primary h-50" @click="toggleForm" v-if="user.role === 'admin'">
+                            <span>{{ showForm? 'Close' : 'Create'}}</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="header-container d-flex align-items-center mb-4 position-relative">
-                <h1 class="text-center w-100 m-0"><%= title%></h1>
-                <div class="position-absolute end-0">
-                    <button type="button" class="btn btn-primary h-50" @click="toggleForm">
-                        <span>{{ showForm? 'Close' : 'Create'}}</span>
-                    </button>
+                <div class="taskForm form d-flex justify-content-center" v-if="showForm === true">
+                    <form @submit.prevent="createTask">
+                        <input class="" type="text" v-model="formData.title" placeholder="Заголовок задачи">
+                        <textarea name="description" id="" v-model="formData.description"></textarea>
+                        <button type="submit" class="btn btn-success">Create task</button>
+                    </form>
                 </div>
-            </div>
-            <div class="taskForm form d-flex justify-content-center" v-if="showForm === true">
-                <form @submit.prevent="createTask">
-                    <input class="" type="text" v-model="formData.title" placeholder="Заголовок задачи">
-                    <textarea name="description" id="" v-model="formData.description"></textarea>
-                    <button type="submit" class="btn btn-success">Create task</button>
-                </form>
-            </div>
-            <div class="spinner" v-if="tasks.length === 0">
-                <p>Don't have tasks</p>
-            </div>
-            <div class="table" v-else>
-                <div v-for="task in tasks">
-                    <div class="card mb-2 rounded d-flex flex-row" :id="task.id">
-                        <div class="bodyTask p-3 text-start flex-grow-1">
-                            <h3 class="mb-2">{{ task.title }}</h3>
-                            <p class="m-0">{{ task.description }}</p>
+                <div class="spinner" v-if="tasks.length === 0">
+                    <p>Don't have tasks</p>
+                </div>
+                <div class="table" v-else>
+                    <div v-for="task in tasks">
+                        <div class="card mb-2 rounded d-flex flex-row" :id="task.id">
+                            <div class="bodyTask p-3 text-start flex-grow-1">
+                                <h3 class="mb-2">{{ task.title }}</h3>
+                                <p class="m-0">{{ task.description }}</p>
+                            </div>
+                            <button v-if="user.role === 'admin'" type="submit" class="btn btn-outline-danger m-4" @click="deleteTask(task._id)">Delete task</button>
                         </div>
-                        <button v-if="user.role === 'admin'" type="submit" class="btn btn-outline-danger m-4" @click="deleteTask(task._id)">Delete task</button>
                     </div>
                 </div>
             </div>

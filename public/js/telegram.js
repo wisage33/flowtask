@@ -11,7 +11,10 @@ if (!window.telegramAuthDone) {
             initData: telegramData.initData
         })
     })
-    .then(data => window.telegramUser = data)
+    .then(res => res.json())
+    .then(data => {
+        window.telegramUser = data
+    })
     .catch(err => {
         console.error("Failed auth: ", err)
     })
