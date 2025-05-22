@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true}))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
-app.use('/auth', authRouter)
+app.use('/api/auth', authRouter)
 app.use(serverRouter)
 
 app.get('/', (req, res) => {

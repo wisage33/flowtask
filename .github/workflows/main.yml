@@ -29,8 +29,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/flowtask-tg.ru
-            docker start mongo
+            docker run -d -v mongodb_data:/data/db -p 27017:27017 --name mongo mongo
             git stash
             git pull origin main
             npm ci
-            /root/.nvm/versions/node/v22.14.0/bin/pm2 start index.js --name flowtask
+            /root/.nvm/versions/node/v22.14.0/bin/pm2 restart index.js --name flowtask

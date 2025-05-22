@@ -1,12 +1,13 @@
 import { Router } from "express"
-import taskController from "../controllers/tasksController.js"
-import { getUsers } from "../controllers/usersController.js"
+import taskController from "../controllers/tasks.controller.js"
+import { authenticate } from "../middleware/auth.middleware.js"
+import { isAdmin } from "../middleware/isAdmin.middleware.js"
 
 const router = Router()
 
-router.get('/api/tasks', taskController.getAll)
-router.post('/api/tasks', taskController.create)
-router.delete('/api/tasks/:id', taskController.delete)
-router.get('/api/users', getUsers)
+router.get('/api/tasks', authenticate, taskController.getAll)
+router.post('/api/tasks', authenticate, isAdmin, taskController.create)
+router.delete('/api/tasks/:id', authenticate, isAdmin, taskController.delete)
+router.post('/api/tasks/:id/assign', authenticate, taskController.assignTaskToUser)
 
 export default router

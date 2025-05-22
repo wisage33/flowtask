@@ -8,7 +8,12 @@ const taskSchema = new mongoose.Schema({
         enum: ['new', 'inWork', 'completed'],
         default: 'new'
     },
-    createdAt: {type: Date, default: Date.now}
+    createdAt: {type: Date, default: Date.now},
+    assignetTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    }
 })
 
 export default mongoose.models.Task || mongoose.model("Task", taskSchema)

@@ -31,31 +31,37 @@ const App = {
         },
 
         async fetchTasks() {
-            try {
-                const tasksRes = await fetch('/api/tasks')
-                if (!tasksRes.ok) throw new Error('Network response was not ok')
-                this.tasks = await tasksRes.json()
-                const checkAuth = () => {
-                    if (window.telegramUser) {
-                        this.user = window.telegramUser
-                    } else {
-                        setTimeout(checkAuth, 100)
-                    }
-                };
+            const token = localStorage.getItem('token');
             
-                checkAuth()
-                console.log(this.user)
+            if (!token) {
+                console.error("No token found");
+                return;
+            }
+        
+            try {
+                const tasksRes = await fetch('/api/tasks', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+        
+                if (!tasksRes.ok) throw new Error('Network response was not ok');
+        
+                this.tasks = await tasksRes.json()
+                console.log(this.tasks)
             } catch (error) {
-                console.error('Error fetching tasks:', error)
+                console.error('Error fetching tasks:', error);
             }
         },
 
         async createTask() {
+            const token = localStorage.getItem('token')
             try {
                 const res = await fetch('/api/tasks', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                         },
                     body: JSON.stringify(this.formData)
                     }
@@ -72,17 +78,40 @@ const App = {
         },
 
         async deleteTask(_id) {
+            const token = localStorage.getItem('token')
             try {
                 console.log(_id)
                 const res = await fetch(`/api/tasks/${_id}`, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                     }
                 })
                 await res.json()
                 this.tasks = this.tasks.filter(task => task._id !== _id)
             } catch (err) {
+                console.error(err)
+            }
+        },
+
+        async takeTask(_id) {
+            const token = localStorage.getItem('token')
+            try {
+                const res = await fetch(`/api/tasks/${id}/assign`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+
+                if(!res.ok) throw new Error("Не удалось взять задачу")
+
+                this.tasks = this.tasks.map(task => 
+                    task._id === taskId ? updatedTask : task
+                );
+            } catch(err) {
                 console.error(err)
             }
         }

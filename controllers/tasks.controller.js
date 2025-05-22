@@ -1,6 +1,30 @@
 import Task from "../models/Task.js";
 
 const taskController = {
+    assignTaskToUser: async(req, res) => {
+        try {
+            const { userId, ...userData } = req.user
+            const {id: taskId } = req.params
+
+            const updatedTask = await Task.findByIdAndUpdate(
+                taskId, 
+                {
+                    status: 'inWork',
+                    assignedTo: userId
+                },
+                { new: true}
+            )
+
+            if(!updatedTask) {
+                return res.status(400).json({ error: 'Task is not find'})
+            }
+
+            res.json(updatedTask)
+        } catch (err) {
+            res.json({ error: err.message })
+        }
+    },
+
     getAll: async (req, res) => {
         try {
             const tasks = await Task.find().sort({ createdAt: -1});

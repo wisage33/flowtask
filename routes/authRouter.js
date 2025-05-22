@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { TelegramAuth } from "../middleware/tg.auth.js";
+import { TelegramAuth } from "../controllers/auth.controller.js";
 
 const router = Router()
 
-router.post('/telegram', TelegramAuth)
+router.post('/login', TelegramAuth)
 
 export default router

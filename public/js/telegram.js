@@ -2,7 +2,7 @@ if (!window.telegramAuthDone) {
     const telegramData = window.Telegram.WebApp;
     telegramData.ready();
 
-    fetch(`/auth/telegram`, {
+    fetch(`/api/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -13,7 +13,8 @@ if (!window.telegramAuthDone) {
     })
     .then(res => res.json())
     .then(data => {
-        window.telegramUser = data
+        window.telegramUser = data.dbUser
+        localStorage.setItem('token', data.token)
     })
     .catch(err => {
         console.error("Failed auth: ", err)
