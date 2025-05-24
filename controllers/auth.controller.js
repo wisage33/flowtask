@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose';
 
 export const TelegramAuth = async (req, res) => {
     // const { initData } = req.body

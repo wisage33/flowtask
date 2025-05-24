@@ -16,19 +16,11 @@ app.use('/api/auth', authRouter)
 app.use(serverRouter)
 
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Main page', active: 'main'})
-})
-
-app.get('/about', (req, res) => {
-    res.render('about', { title: 'About', active: 'about'})
+    res.redirect('/tasks')
 })
 
 app.get('/tasks', (req, res) => {
     res.render('tasks', { title: 'Tasks', active: 'tasks', })
-})
-
-app.get('/register', (req, res) => {
-    res.render('register', {title: 'Registration'})
 })
 
 connectDB().then(() => {

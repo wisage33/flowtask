@@ -95,7 +95,7 @@ const App = {
             }
         },
 
-        async takeTask(_id) {
+        async takeTask(id) {
             const token = localStorage.getItem('token')
             try {
                 const res = await fetch(`/api/tasks/${id}/assign`, {
@@ -105,14 +105,35 @@ const App = {
                         'Authorization': 'Bearer ' + token
                     }
                 })
-
                 if(!res.ok) throw new Error("Не удалось взять задачу")
 
+                const updatedTask = await res.json()
+
                 this.tasks = this.tasks.map(task => 
-                    task._id === taskId ? updatedTask : task
+                    task._id === id ? updatedTask : task
                 );
             } catch(err) {
                 console.error(err)
+            }
+        },
+
+        async completeTask(id) {
+            const token = localStorage.getItem('token')
+            try {
+                const res = await fetch(`/api/tasks/${id}/complete`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+
+                const completeTask = await res.json()
+                this.tasks = this.tasks.map(task => 
+                    task._id === id ? completeTask : task
+                )
+            } catch (err) {
+                console.log("Error complete task: ", err)
             }
         }
     },

@@ -32,9 +32,9 @@
                             <span 
                                 class="position-absolute top-0 start-0 translate-middle badge rounded-pill"
                                 :class="{
-                                    'bg-success': task.status === 'Done',
-                                    'bg-warning text-dark': task.status === 'In Progress',
-                                    'bg-info': task.status === 'To Do',
+                                    'bg-success': task.status === 'completed',
+                                    'bg-warning text-dark': task.status === 'inWork',
+                                    'bg-info': task.status === 'new',
                                     'bg-danger': task.status === 'Blocked'
                                 }">
                                 {{ task.status }}
@@ -59,6 +59,12 @@
                                         @click="takeTask(task._id)"
                                         class="btn btn-outline-primary btn-sm d-flex align-items-center">
                                         <i class="bi bi-briefcase me-1"></i> Взять задачу
+                                    </button>
+
+                                    <button
+                                        v-if="task.assignedTo && task.status === 'inWork'"
+                                        @click="completeTask(task._id)"
+                                        class="btn btn-outline-primary d-flex"> Завершить
                                     </button>
                 
                                     <button 

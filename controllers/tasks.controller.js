@@ -1,9 +1,34 @@
 import Task from "../models/Task.js";
 
 const taskController = {
+    completeTask: async (req, res) => {
+        try {
+            const { id: taskId } = req.params
+            console.log(taskId)
+
+            const updatedTask = await Task.findByIdAndUpdate(
+                taskId,
+                {
+                    status: 'completed'
+                },
+                { new: true }
+            )
+
+            if(!updatedTask) {
+                return res.status(400).json({ error: 'Задача не найдена'})
+            }
+
+            updatedTask.save()
+
+            res.json(updatedTask)
+        } catch (err) {
+            handleError(res, err)
+        }
+    },
+
     assignTaskToUser: async(req, res) => {
         try {
-            const { userId, ...userData } = req.user
+            const { userId } = req.user
             const {id: taskId } = req.params
 
             const updatedTask = await Task.findByIdAndUpdate(
@@ -19,15 +44,17 @@ const taskController = {
                 return res.status(400).json({ error: 'Task is not find'})
             }
 
+            updatedTask.save()
+
             res.json(updatedTask)
         } catch (err) {
-            res.json({ error: err.message })
+            handleError(res, err)
         }
     },
 
     getAll: async (req, res) => {
         try {
-            const tasks = await Task.find().sort({ createdAt: -1});
+            const tasks = await Task.find().sort({ createdAt: -1}).populate('assignedTo');
             res.json(tasks);
         } catch (err) {
             handleError(res, err);
